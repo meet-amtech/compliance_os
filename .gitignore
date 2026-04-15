@@ -1,0 +1,67 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+wheels/
+
+# === Virtual Environment ===
+.venv/
+venv/
+ENV/
+env/
+# External venv (yours is at E:\.vnv\compliance_os — NOT in this repo)
+
+# === Django ===
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# === Environment Variables ===
+.env
+.env.*
+!.env.example
+
+# === IDE / Editor ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# === Testing ===
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+# === Migrations (optional — keep if you want to track them) ===
+*/migrations/*.py
+# !*/migrations/__init__.py
+
+# === OS ===
+Thumbs.db
+ehthumbs.db
+Desktop.ini
