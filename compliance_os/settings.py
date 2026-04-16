@@ -32,11 +32,13 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
+AUTH_USER_MODEL = 'users.User'
 
 # Application definition
 
 PROJECT_APPS = [
-    'apps.base'
+    'apps.base',
+    'apps.users',
 ]
 
 DJANGO_APPS = [
