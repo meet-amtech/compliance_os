@@ -13,7 +13,6 @@ class BaseAdmin(admin.ModelAdmin):
     readonly_fields = ('id', 'created_at', 'updated_at', 'created_by', 'updated_by')
 
     def save_model(self, request, obj, form, change):
-        if not change:
-            obj.created_by = request.user
-        obj.updated_by = request.user
+        if 'password' in form.changed_data:
+            obj.set_password(obj.password)
         super().save_model(request, obj, form, change)
