@@ -1,0 +1,16 @@
+from rest_framework import mixins
+from apps.base.views import BaseViewSet
+from .models import Tenant
+from .serializers import TenantSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+
+class TenantViewSet(
+    BaseViewSet,
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    queryset = Tenant.objects.all()
+    serializer_class = TenantSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
