@@ -36,7 +36,8 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 # Application definition
 
 PROJECT_APPS = [
-    'apps.base'
+    'apps.base',
+    'apps.tenants',
 ]
 
 DJANGO_APPS = [
@@ -143,10 +144,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # DRF Default Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
