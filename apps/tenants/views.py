@@ -9,6 +9,8 @@ class TenantViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
 ):
     queryset = Tenant.objects.all()
     serializer_class = TenantSerializer

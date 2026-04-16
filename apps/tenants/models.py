@@ -18,13 +18,10 @@ class Tenant(BaseModel):
 
     timezone = models.CharField(max_length=50, default="Asia/Kolkata")
 
-    settings_json = models.JSONField(default=dict, blank=True)
+    settings_json = models.JSONField(default=dict, blank=True, null=True)
 
     class Meta:
         db_table = "comp_tenant"
-        indexes = [
-            models.Index(fields=["code"]),
-        ]
 
     def __str__(self):
         return f"{self.name} ({self.code})"
