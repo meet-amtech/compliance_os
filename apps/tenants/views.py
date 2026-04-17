@@ -4,7 +4,6 @@ from .models import Tenant
 from .serializers import TenantSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-
 class TenantViewSet(
     BaseViewSet,
     mixins.CreateModelMixin,
@@ -15,4 +14,4 @@ class TenantViewSet(
 ):
     queryset = Tenant.objects.all()
     serializer_class = TenantSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]

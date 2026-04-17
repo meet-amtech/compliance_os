@@ -1,9 +1,24 @@
 from rest_framework import serializers
-from apps.base.serializers import BaseSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Tenant
 
+class TenantLoginSerializer(serializers.Serializer):
+    code = serializers.CharField()
 
-class TenantSerializer(BaseSerializer, serializers.ModelSerializer):
-    class Meta(BaseSerializer.Meta):
-        model = Tenant
-        fields = '__all__'
+    def validate(self, data):
+        try:
+            tenant = Tenant.objects.get(code=data['code'])
+        except Tenant.DoesNotExist:
+            raise serializers.ValidationError("Invalid tenant code")
+
+        # Issue a JWT token that includes tenant info
+        refresh = RefreshToken()
+        refresh['tenant_id'] = str(tenant.id)
+        refresh['tenant_code'] = tenant.code
+
+        return {
+            'tenant_id': str(tenant.id),
+            'tenant_code': tenant.code,
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }

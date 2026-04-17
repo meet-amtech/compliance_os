@@ -1,7 +1,12 @@
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import TenantViewSet
+from .views import TenantViewSet, TenantLoginAPIView
 
 router = DefaultRouter()
-router.register(r'tenants', TenantViewSet)
+router.register('', TenantViewSet, basename='tenant')
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('login/', TenantLoginAPIView.as_view(), name='tenant-login'),
+]
+
+urlpatterns += router.urls
