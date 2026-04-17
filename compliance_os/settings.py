@@ -40,6 +40,7 @@ PROJECT_APPS = [
     'apps.base',
     'apps.tenants',
     'apps.users',
+    'apps.authentication',
 ]
 
 DJANGO_APPS = [
