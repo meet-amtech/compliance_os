@@ -4,13 +4,14 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.base.models import BaseModel
 from apps.users.managers import CustomUserManager
+from apps.tenants.models import Tenant
 
 class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     """
     Custom User Model for Compliance OS.
     Inherits from BaseModel which provides ID (UUID), timestamps, and audit info.
     """
-    tenant_id = models.UUIDField(null=True, blank=True, db_index=True, help_text=_("Placeholder for Multi-Tenancy"))
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE,null=True, blank=True, db_index=True, help_text=_("Placeholder for Multi-Tenancy"), related_name='users')
     
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
