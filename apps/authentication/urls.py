@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import LoginAPIView, TenantLoginAPIView, MeAPIView
+from .views import LoginAPIView, MeAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -7,7 +7,7 @@ urlpatterns = [
     path('login/', LoginAPIView.as_view(), name='user-login'),
 
     # Tenant JWT login
-    path('tenant/login/', TenantLoginAPIView.as_view(), name='tenant-login'),
+    # path('tenant/login/', TenantLoginAPIView.as_view(), name='tenant-login'),
 
     # Get or update current authenticated user
     path('me/', MeAPIView.as_view(), name='me'),

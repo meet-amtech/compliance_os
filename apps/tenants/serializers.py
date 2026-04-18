@@ -22,3 +22,8 @@ class TenantLoginSerializer(serializers.Serializer):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         }
+
+class TenantSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Tenant
+            fields = '__all__'

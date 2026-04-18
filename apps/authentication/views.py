@@ -6,7 +6,7 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from apps.users.serializers import UserSerializer
-from .serializers import LoginSerializer, TenantLoginSerializer
+from .serializers import LoginSerializer
 
 
 class LoginAPIView(APIView):

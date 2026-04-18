@@ -1,8 +1,9 @@
 from rest_framework import mixins
 from apps.base.views import BaseViewSet
 from .models import Tenant
-from .serializers import TenantSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .serializers import TenantLoginSerializer,TenantSerializer
+from rest_framework.permissions import IsAuthenticated
+
 
 class TenantViewSet(
     BaseViewSet,
