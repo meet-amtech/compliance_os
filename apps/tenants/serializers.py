@@ -4,6 +4,8 @@ from .models import Tenant
 
 
 class TenantSerializer(BaseSerializer, serializers.ModelSerializer):
+    
     class Meta(BaseSerializer.Meta):
         model = Tenant
-        fields = '__all__'
+        fields = ['id', 'name', 'code', 'plan', 'timezone', 'settings_json']
+        read_only_fields = ('id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'plan')

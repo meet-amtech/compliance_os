@@ -7,7 +7,7 @@ class BaseSerializer(serializers.Serializer):
     """
     class Meta:
         # Standard read-only fields for audit & tracking
-        read_only_fields = ('id', 'created_at', 'updated_at', 'created_by', 'updated_by')
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
     def validate(self, attrs):
         if not attrs and self.instance:
