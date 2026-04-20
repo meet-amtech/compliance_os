@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
-
 from apps.users.serializers import UserSerializer
 from .serializers import LoginSerializer
 
@@ -23,10 +22,7 @@ class LoginAPIView(APIView):
 
 
 class TenantLoginAPIView(APIView):
-    """
-    Tenant login endpoint.
-    Returns JWT token with tenant context.
-    """
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

@@ -1,10 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
-
 from apps.base.models import BaseModel
 from apps.users.managers import CustomUserManager
-# from apps.tenants.models import Tenant
 
 class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     """

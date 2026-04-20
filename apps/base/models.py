@@ -40,16 +40,6 @@ class BaseModel(models.Model):
         help_text=_("User who last updated this record")
     )
 
-    # Tenant support (NEW - SaaS requirement)
-    # tenant = models.ForeignKey(
-    #     'tenants.Tenant',
-    #     null=True,
-    #     blank=True,
-    #     on_delete=models.CASCADE,
-    #     db_index=True,
-    #     help_text="Tenant ownership of this record"
-    # )
-    #
     is_active = models.BooleanField(default=True, db_index=True)
     is_deleted = models.BooleanField(default=False, db_index=True)
 
@@ -74,15 +64,10 @@ class BaseModel(models.Model):
     def save(self, *args, **kwargs):
         """Automatically attach current user and tenant on save."""
         user = get_current_user()
-        # tenant = get_current_tenant()
 
         if user:
             if not self.pk:
                 self.created_by = user
             self.updated_by = user
-
-        # AUTO-ATTACH TENANT
-        # if tenant and not self.tenant:
-        #     self.tenant = tenant
 
         super().save(*args, **kwargs)

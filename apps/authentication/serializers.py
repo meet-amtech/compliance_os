@@ -8,12 +8,25 @@ class LoginSerializer(serializers.Serializer):
 
     def validate(self, data):
         user = authenticate(
-            username=data['email'],   # because USERNAME_FIELD = email
+            username=data['email'],
             password=data['password']
         )
 
         if not user:
             raise serializers.ValidationError("Invalid credentials")
+
+            # Block admin & super admin
+            if user.is_superuser or user.is_staff:
+                raise serializers.ValidationError(
+                    "Admin users are not allowed to login via this API"
+                )
+
+        Blocked:
+        - Django Admin users(is_staff)
+        - Superusers(is_superuser)
+
+        - Normal application users only allowed
+
         if not user.is_active:
             raise serializers.ValidationError("User is inactive")
 

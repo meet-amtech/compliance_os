@@ -60,17 +60,6 @@ THIRD_PARTY_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
 
-# INSTALLED_APPS = [
-#     'django.contrib.admin',
-#     'django.contrib.auth',
-#     'django.contrib.contenttypes',
-#     'django.contrib.sessions',
-#     'django.contrib.messages',
-#     'django.contrib.staticfiles',
-#     'apps.tenants',
-#     'rest_framework',
-# ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -197,9 +186,7 @@ LOGGING = {
             "level": "DEBUG",
             "filters": ["require_debug_true"],
             "class": "logging.StreamHandler",
-            # 'level': 'INFO',
-            # 'class': 'logging.StreamHandler',
-            # 'formatter': 'standard'
+
         },
     },
     "loggers": {
@@ -209,11 +196,7 @@ LOGGING = {
             "level": "WARN",
         },
         "django.server": {"handlers": ["console", "logfile"], "level": "DEBUG"},
-        # 'django.db.backends': {
-        #     'handlers': ['console', 'logfile'],
-        #     'level': 'DEBUG',
-        #     'propagate': False,
-        # },
+
         "main": {
             "handlers": ["console", "logfile"],
             "level": "DEBUG",
