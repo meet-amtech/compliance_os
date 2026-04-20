@@ -21,11 +21,11 @@ class LoginSerializer(serializers.Serializer):
                     "Admin users are not allowed to login via this API"
                 )
 
-        Blocked:
-        - Django Admin users(is_staff)
-        - Superusers(is_superuser)
-
-        - Normal application users only allowed
+        # blocked
+        # - Django Admin users(is_staff)
+        # - Superusers(is_superuser)
+        #
+        # - Normal application users only allowed
 
         if not user.is_active:
             raise serializers.ValidationError("User is inactive")
