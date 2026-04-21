@@ -7,7 +7,7 @@ urlpatterns = [
     path('login/', LoginAPIView.as_view(), name='user-login'),
 
     # Get or update current authenticated user
-    path('user/', MeAPIView.as_view(), name='user'),
+    path('me/', MeAPIView.as_view(), name='me'),
 
     # JWT refresh
     path('token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),

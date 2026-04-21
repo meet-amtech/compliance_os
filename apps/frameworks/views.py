@@ -9,7 +9,7 @@ from .serializers import (
     ClauseSerializer,
     ControlSerializer
 )
-from rest_framework.exceptions import ValidationError
+
 
 class FrameworkViewSet(BaseViewSet, viewsets.ModelViewSet):
     queryset = Framework.objects.all()
@@ -18,26 +18,10 @@ class FrameworkViewSet(BaseViewSet, viewsets.ModelViewSet):
     parser_classes = [MultiPartParser, FormParser]         #upload
 
     def get_queryset(self):
-        serializer.save(
-            tenant=self.request.user.tenant,
-            is_active=True  # force active
-        )
         return Framework.objects.filter(tenant=self.request.user.tenant)
 
     def perform_create(self, serializer):
-        serializer.save(
-            tenant=self.request.user.tenant,
-            created_by=self.request.user
-        )
-        user = self.request.user
-
-        if not user or not user.is_authenticated:
-            raise ValidationError("User not authenticated")
-
-        if not user.tenant:
-            raise ValidationError("User is not assigned to any tenant")
-
-        serializer.save(tenant=user.tenant)
+        serializer.save(tenant=self.request.user.tenant)
 
 class ObligationViewSet(BaseViewSet, viewsets.ModelViewSet):
     queryset = Obligation.objects.all()
@@ -58,13 +42,3 @@ class ControlViewSet(BaseViewSet, viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Control.objects.filter(tenant=self.request.user.tenant)
-
-    def perform_create(self, serializer):
-        print("🔥 perform_create called")
-        print("USER:", self.request.user)
-        print("TENANT:", self.request.user.tenant)
-
-        serializer.save(
-            tenant=self.request.user.tenant,
-            created_by=self.request.user
-        )

@@ -14,14 +14,3 @@ class BaseViewSet(viewsets.GenericViewSet):
             else:
                 return queryset.order_by('-pk')
         return queryset
-
-class BaseViewSet(viewsets.ModelViewSet):
-
-    def perform_create(self, serializer):
-        serializer.save(
-            tenant=self.request.user.tenant,
-            created_by=self.request.user
-        )
-
-    def perform_update(self, serializer):
-        serializer.save(updated_by=self.request.user)

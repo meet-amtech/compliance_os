@@ -4,16 +4,29 @@ from apps.base.middleware import get_current_tenant
 
 
 class BaseQuerySet(QuerySet):
+    """
+    Custom QuerySet for models with soft-delete capabilities.
+    """
 
     def delete(self):
-        return super().update(is_deleted=True, is_active=False)
+        """
+        Soft delete the records.
+        """
+        return super(BaseQuerySet, self).update(is_deleted=True, is_active=False)
 
     def hard_delete(self):
-        return super().delete()
+        """
+        Permanently remove records from the database.
+        """
+        return super(BaseQuerySet, self).delete()
 
     def active(self):
+        """
+        Filter to only include active and non-deleted records.
+        """
         return self.filter(is_deleted=False, is_active=True)
 
+    # NEW: tenant filtering
     def for_tenant(self, tenant):
         if tenant:
             return self.filter(tenant=tenant)
@@ -21,19 +34,25 @@ class BaseQuerySet(QuerySet):
 
 
 class BaseManager(models.Manager):
+    """
+    Custom Manager to handle soft deletes globally + tenant isolation.
+    """
 
     def __init__(self, *args, **kwargs):
         self.alive_only = kwargs.pop('alive_only', True)
-        super().__init__(*args, **kwargs)
+        super(BaseManager, self).__init__(*args, **kwargs)
 
     def get_queryset(self):
-        qs = super().get_queryset()   #  FIXED
+        qs = BaseQuerySet(self.model)
 
+        # Soft delete filter
         if self.alive_only:
-            qs = qs.filter(is_deleted=False, is_active=True)
+            qs = qs.active()
 
+        # AUTO TENANT FILTER (CORE SaaS LOGIC)
         tenant = get_current_tenant()
 
+        # Only apply if model has tenant field
         if tenant and hasattr(self.model, 'tenant'):
             qs = qs.filter(tenant=tenant)
 
