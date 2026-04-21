@@ -6,6 +6,12 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from apps.users.serializers import UserSerializer
 from .serializers import LoginSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenSerializer
+
+
+class LoginAPIView(TokenObtainPairView):
+    serializer_class = CustomTokenSerializer
 
 
 class LoginAPIView(APIView):
@@ -22,7 +28,6 @@ class LoginAPIView(APIView):
 
 
 class TenantLoginAPIView(APIView):
-
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

@@ -1,15 +1,27 @@
 from rest_framework import serializers
 
-class BaseSerializer(serializers.Serializer):
+
+class BaseSerializer(serializers.ModelSerializer):
     """
-    Standard serializer mixin/base for all models.
-    Enforces read-only audit fields and standardizes validation errors.
+    Base serializer for all models.
+    Handles:
+    - Read-only audit fields
+    - Common validation
+    - Standard error format
     """
+
     class Meta:
-        # Standard read-only fields for audit & tracking
-        read_only_fields = ('id', 'created_at', 'updated_at', 'created_by', 'updated_by')
+        abstract = True
+        read_only_fields = (
+            'id',
+            'created_at',
+            'updated_at',
+            'created_by',
+            'updated_by'
+        )
 
     def validate(self, attrs):
+        # Prevent empty update (PUT/PATCH with no data)
         if not attrs and self.instance:
             raise serializers.ValidationError("Empty update not allowed")
         return attrs
