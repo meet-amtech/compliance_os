@@ -49,8 +49,15 @@ class Clause(BaseModel):
 
 
 class Control(BaseModel):
-    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
-    obligation = models.ForeignKey(Obligation, on_delete=models.CASCADE, related_name="controls")
+    # tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
+    # obligation = models.ForeignKey(Obligation, on_delete=models.CASCADE, related_name="controls")
+    title = models.CharField(max_length=255)
+
+    description = models.TextField(blank=True)
+
+    control_code = models.CharField(max_length=100, unique=True)
+
+    clause = models.ForeignKey(Clause,on_delete=models.CASCADE, related_name="controls")
 
     owner_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
