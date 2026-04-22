@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from apps.base.views import BaseViewSet
-from .models import Framework, Obligation, Clause, Control
+from .models import Framework, Obligation, Clause, Control, Evidence
 from .serializers import (
     FrameworkSerializer,
     ObligationSerializer,
@@ -10,6 +10,7 @@ from .serializers import (
     ControlSerializer
 )
 from rest_framework.exceptions import ValidationError
+from .serializers import EvidenceSerializer
 
 # -------------------- Framework --------------------
 class FrameworkViewSet(BaseViewSet, viewsets.ModelViewSet):
@@ -137,4 +138,50 @@ class ControlViewSet(BaseViewSet, viewsets.ModelViewSet):
             # tenant=self.request.user.tenant,
             created_by=self.request.user
         )
+
+#---------------Evidence-------------------
+
+class EvidenceViewSet(BaseViewSet, viewsets.ModelViewSet):
+    queryset = Evidence.objects.all()
+    serializer_class = EvidenceSerializer
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get_queryset(self):
+        return Evidence.objects.filter(
+            control__clause__obligation__framework__tenant=self.request.user.tenant,
+            is_deleted=False
+        )
+
+    def perform_create(self, serializer):
+        control = serializer.validated_data.get("control")
+
+        # Tenant safety check
+        if control.clause.obligation.framework.tenant != self.request.user.tenant:
+            raise Exception("Invalid tenant access")
+
+        serializer.save(
+            is_active=True,
+            created_by=self.request.user)
+
+#------------------tasks---------------
+class TaskViewSet(BaseViewSet, viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Task.objects.filter(
+            control__clause__obligation__framework__tenant=self.request.user.tenant,
+            is_deleted=False
+        )
+
+    def perform_create(self, serializer):
+        control = serializer.validated_data.get("control")
+
+        if control.clause.obligation.framework.tenant != self.request.user.tenant:
+            raise Exception("Invalid tenant access")
+
+        serializer.save(is_active = True,
+                        created_by=self.request.user)
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Framework, Obligation, Clause, Control
+from .models import Framework, Obligation, Clause, Control, Evidence
 
 
 @admin.register(Framework)
@@ -21,3 +21,9 @@ class ClauseAdmin(admin.ModelAdmin):
 @admin.register(Control)
 class ControlAdmin(admin.ModelAdmin):
     list_display = ('id',)
+
+#Evidence
+
+@admin.register(Evidence)
+class EvidenceAdmin(admin.ModelAdmin):
+    list_display = ("id", "control", "created_at")

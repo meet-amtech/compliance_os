@@ -67,3 +67,45 @@ class Control(BaseModel):
 
     class Meta:
         db_table = "comp_control"
+
+class Evidence(BaseModel):
+    control = models.ForeignKey(Control, on_delete=models.CASCADE, related_name="evidences")
+    file = models.FileField(upload_to="evidence/")
+    remarks = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Evidence for {self.control.control_code}"
+
+class Task(BaseModel):
+    STATUS_CHOICES = (
+        ("PENDING", "Pending"),
+        ("IN_PROGRESS", "In Progress"),
+        ("COMPLETED", "Completed"),
+    )
+
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    control = models.ForeignKey(
+        Control,
+        on_delete=models.CASCADE,
+        related_name="tasks"
+    )
+
+    assigned_to = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    due_date = models.DateField(null=True, blank=True)
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="PENDING"
+    )
+
+    def __str__(self):
+        return self.title

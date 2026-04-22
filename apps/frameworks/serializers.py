@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from apps.base.serializers import BaseSerializer
-from .models import Framework, Obligation, Clause, Control
+from .models import Framework, Obligation, Clause, Control, Evidence
 
 
 class FrameworkSerializer(BaseSerializer):
@@ -31,4 +31,15 @@ class ClauseSerializer(BaseSerializer, serializers.ModelSerializer):
 class ControlSerializer(BaseSerializer, serializers.ModelSerializer):
     class Meta:
         model = Control
+        fields = '__all__'
+
+class EvidenceSerializer(BaseSerializer, serializers.ModelSerializer):
+    class Meta:
+        model = Evidence
+        fields = "__all__"
+        read_only_fields = ["created_by"]
+
+class TaskSerializer(BaseSerializer, serializers.ModelSerializer):
+    class Meta:
+        model = Task
         fields = '__all__'
